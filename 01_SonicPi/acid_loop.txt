@@ -1,0 +1,42 @@
+use_bpm 120
+live_loop :main do
+  sleep 1
+end
+
+live_loop :kick, sync: :main do
+  8.times do
+    sample :bd_mehackit
+    sleep 1
+  end
+  
+end
+
+live_loop :hat, sync: :main do
+  sleep 0.5
+  sample :drum_cymbal_closed
+  sleep 0.5
+end
+
+live_loop :snare, sync: :main do
+  sleep 1
+  sample :drum_snare_soft, amp: 2
+  sleep 1
+end
+
+live_loop :bass, sync: :main do
+  use_synth :tb303
+  notes = (ring, :Db1, :Db2, :A2, :D2).choose
+  play notes, release: 0.2, cutoff: rrand(80, 120), res: rrand(0.1, 0.9)
+  osc_send "localhost", 12000, "/test"
+  cue :test
+  sleep 0.25
+end
+
+live_loop :chords, sync: :main do
+  use_synth :tb303
+  notes = (chord, :Db3, :minor, num_octaves: 3)
+  play notes, release: 0.25, res: (0.1), attack: 0.5, amp: 2
+  sleep 8
+end
+
+
